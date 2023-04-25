@@ -1,71 +1,134 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Проект "Комменты"</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body>
-    <div class="container">
-      <ul class="comments">
-        <li class="comment">
-          <div class="comment-header">
-            <div>Глеб Фокин</div>
-            <div>12.02.22 12:18</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Это будет первый комментарий на этой странице
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">3</span>
-              <button class="like-button"></button>
-            </div>
-          </div>
-        </li>
-        <li class="comment">
-          <div class="comment-header">
-            <div>Варвара Н.</div>
-            <div>13.02.22 19:22</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Мне нравится как оформлена эта страница! ❤
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">75</span>
-              <button class="like-button -active-like"></button>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <div class="add-form">
-        <input
-          type="text"
-          class="add-form-name"
-          placeholder="Введите ваше имя"
-        />
-        <textarea
-          type="textarea"
-          class="add-form-text"
-          placeholder="Введите ваш коментарий"
-          rows="4"
-        ></textarea>
-        <div class="add-form-row">
-          <button class="add-form-button">Написать</button>
+<head>
+  <title>Проект "Комменты"</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <ul class="comments" id="list">
+      <li class="comment">
+        <div class="comment-header">
+          <div>Глеб Фокин</div>
+          <div>12.02.22 12:18</div>
         </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            Это будет первый комментарий на этой странице
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">3</span>
+            <button class="like-button"></button>
+          </div>
+        </div>
+      </li>
+      <li class="comment">
+        <div class="comment-header">
+          <div>Варвара Н.</div>
+          <div>13.02.22 19:22</div>
+        </div>
+        <div class="comment-body">
+          <div class="comment-text">
+            Мне нравится как оформлена эта страница! ❤
+          </div>
+        </div>
+        <div class="comment-footer">
+          <div class="likes">
+            <span class="likes-counter">75</span>
+            <button class="like-button -active-like"></button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div class="add-form">
+      <input type="text" class="add-form-name" id="name" placeholder="Введите ваше имя" />
+      <textarea type="textarea" class="add-form-text" id="comments" placeholder="Введите ваш коментарий"
+        rows="4"></textarea>
+      <div class="add-form-row">
+        <button class="add-form-button" id="add-button">Написать</button>
       </div>
     </div>
-  </body>
+  </div>
+
 
   <script>
-    "use strict";
-    // Код писать здесь
-    console.log("It works!");
+    const buttonElement = document.getElementById('add-button');
+    const listElement = document.getElementById('list');
+    const nameElement = document.getElementById('name');
+    const commentsElement = document.getElementById('comments');
+
+    document.addEventListener("DOMContentLoaded", function () {
+      checkInputs();
+    });
+    function checkInputs() {
+      if (nameElement.value === "" || commentsElement.value === "") {
+        buttonElement.style.backgroundColor = "#dbd9d9";
+      } else {
+        buttonElement.style.backgroundColor = "";
+      }
+    }
+    nameElement.addEventListener("input", checkInputs);
+    commentsElement.addEventListener("input", checkInputs);
+    buttonElement.addEventListener("click", () => {
+      if (nameElement.value === "" || commentsElement.value === "") {
+        return;
+      }
+    })
+
+    buttonElement.addEventListener("click", () => {
+      nameElement.style.backgroundColor = "";
+      nameElement.style["boxShadow"] = "";
+      commentsElement.style.backgroundColor = "";
+      commentsElement.style["boxShadow"] = "";
+      if (nameElement.value === "" || commentsElement.value === "") {
+        if (nameElement.value === "") {
+          nameElement.style.backgroundColor = "#FFBABA";
+          nameElement.style["boxShadow"] = "0 0 6px #FF1010";
+        }
+        if (commentsElement.value === "") {
+          commentsElement.style.backgroundColor = "#FFBABA";
+          commentsElement.style["boxShadow"] = "0 0 6px #FF1010";
+        }
+        return;
+      }
+
+      const oldListHtml = listElement.innerHTML;
+      let currentDate = new Date();
+      const date = currentDate.getDate().toString().padStart(2, "0");
+      const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+      const year = currentDate.getFullYear().toString().substr(-2);
+      const hours = currentDate.getHours().toString().padStart(2, "0");
+      const minutes = currentDate.getMinutes().toString().padStart(2, "0");
+      let needDate = (`${date}.${month}.${year} ${hours}:${minutes}`);
+
+      listElement.innerHTML = oldListHtml +
+        `<li>
+          <li class="comment">
+            <div class="comment-header">
+              <div>${nameElement.value}</div>
+              <div>${needDate}</div>
+            </div>
+            <div class="comment-body">
+              <div class="comment-text">
+                ${commentsElement.value}
+              </div>
+            </div>
+            <div class="comment-footer">
+              <div class="likes">
+                <span class="likes-counter">0</span>
+                <button class="like-button"></button>
+              </div>
+            </div>
+          </li>
+        </li>`
+    })
+
   </script>
+</body>
+
+
 </html>
