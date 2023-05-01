@@ -54,6 +54,17 @@
     </div>
   </div>
 
+  <style> 
+  .errorColorButton {
+    background-color : #dbd9d9;
+  }
+  .errorColorInput {
+    background-color : #FFBABA;
+  }
+  .errorBoxShadowInput {
+    box-shadow: 0 0 6px #FF1010;
+  }
+  </style>
 
   <script>
     const buttonElement = document.getElementById('add-button');
@@ -66,9 +77,9 @@
     });
     function checkInputs() {
       if (nameElement.value === "" || commentsElement.value === "") {
-        buttonElement.style.backgroundColor = "#dbd9d9";
+        buttonElement.classList.add("errorColorButton");
       } else {
-        buttonElement.style.backgroundColor = "";
+        buttonElement.classList.remove("errorColorButton");
       }
     }
     nameElement.addEventListener("input", checkInputs);
@@ -80,18 +91,18 @@
     })
 
     buttonElement.addEventListener("click", () => {
-      nameElement.style.backgroundColor = "";
-      nameElement.style["boxShadow"] = "";
-      commentsElement.style.backgroundColor = "";
-      commentsElement.style["boxShadow"] = "";
+      nameElement.classList.remove("errorColorInput");
+      nameElement.classList.remove("errorBoxShadowInput");
+      commentsElement.classList.remove("errorColorInput");
+      commentsElement.classList.remove("errorBoxShadowInput");
       if (nameElement.value === "" || commentsElement.value === "") {
         if (nameElement.value === "") {
-          nameElement.style.backgroundColor = "#FFBABA";
-          nameElement.style["boxShadow"] = "0 0 6px #FF1010";
+          nameElement.classList.add("errorColorInput");
+          nameElement.classList.add("errorBoxShadowInput");
         }
         if (commentsElement.value === "") {
-          commentsElement.style.backgroundColor = "#FFBABA";
-          commentsElement.style["boxShadow"] = "0 0 6px #FF1010";
+          commentsElement.classList.add("errorColorInput");
+          commentsElement.classList.add("errorBoxShadowInput");
         }
         return;
       }
