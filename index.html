@@ -87,7 +87,7 @@
 
           if (comments[index]['likes'] === 'like-button -active-like') {
             counter -= 1;
-            comments[index]['likes'] = 'like-button'
+            comments[index]['likes'] = false;
           } else {
             counter += 1;
             comments[index]['likes'] = 'like-button -active-like';
@@ -96,9 +96,16 @@
           renderComments();
         });
       };
+
+      const likeButtons = document.querySelectorAll('.like-button');
+      for (const button of likeButtons) {
+        button.addEventListener('click', function (event) {
+          event.stopPropagation();
+        });
+      }
+
     }
 
-    likesElements();
 
     const renderComments = () => {
       const commentsHtml = comments.map((comment, index) => {
@@ -116,7 +123,7 @@
         <div class="comment-footer">
           <div class="likes">
             <span class="likes-counter">${comment.like}</span>
-            <button data-index='${index}' class="${comment.likes}"></button>
+            <button data-index='${index}' class="${comment.likes ? 'like-button -active-like' : 'like-button'}"></button>
           </div>
         </div>
       </li>`;
@@ -128,23 +135,18 @@
 
     renderComments();
 
-
-    const likeButtons = document.querySelectorAll('.like-button');
-    for (const button of likeButtons) {
-      button.addEventListener('click', function (event) {
-        event.stopPropagation();
-      });
+    const answerElements = () => {
+      const commentElements = document.querySelectorAll(".comment");
+      for (const commentElement of commentElements) {
+        commentElement.addEventListener("click", (event) => {
+          const nameAuthor = commentElement.querySelector(".comment-header div:first-child").textContent;
+          const textAuthor = commentElement.querySelector(".comment-text").textContent;
+          commentsElement.value = `>${textAuthor.trim()}\n${nameAuthor}, `;
+          commentsElement.focus();
+        });
+      }
     }
 
-    const commentElements = document.querySelectorAll(".comment");
-    for (const commentElement of commentElements) {
-      commentElement.addEventListener("click", (event) => {
-        const nameAuthor = commentElement.querySelector(".comment-header div:first-child").textContent;
-        const textAuthor = commentElement.querySelector(".comment-text").textContent;
-        commentsElement.value = `>${textAuthor.trim()}\n${nameAuthor}, `;
-        commentsElement.focus();
-      });
-    }
 
     buttonElement.addEventListener("click", () => {
       nameElement.classList.remove("errorColorInput");
@@ -188,9 +190,9 @@
         likes: 'like-button'
       });
 
-      likesElements();
       renderComments();
     })
+    answerElements();
 
   </script>
 </body>
