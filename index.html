@@ -86,13 +86,13 @@
           let counter = comments[index]['like'];
 
           if (comments[index]['likes'] === 'like-button -active-like') {
-            counter -= 1;
-            comments[index]['likes'] = false;
+            comments[index].like -= 1;
+            comments[index]['likes'] = Boolean;
           } else {
-            counter += 1;
+            comments[index].like += 1;
             comments[index]['likes'] = 'like-button -active-like';
           }
-          console.log(comments[index]['like'] = counter);
+
           renderComments();
         });
       };
@@ -106,6 +106,17 @@
 
     }
 
+    const answerElements = () => {
+      const commentElements = document.querySelectorAll(".comment");
+      for (const commentElement of commentElements) {
+        commentElement.addEventListener("click", (event) => {
+          const nameAuthor = commentElement.querySelector(".comment-header div:first-child").textContent;
+          const textAuthor = commentElement.querySelector(".comment-text").textContent;
+          commentsElement.value = `>${textAuthor.trim()}\n${nameAuthor}, `;
+          commentsElement.focus();
+        });
+      }
+    }
 
     const renderComments = () => {
       const commentsHtml = comments.map((comment, index) => {
@@ -131,22 +142,10 @@
 
       listElement.innerHTML = commentsHtml;
       likesElements();
+      answerElements();
     };
 
     renderComments();
-
-    const answerElements = () => {
-      const commentElements = document.querySelectorAll(".comment");
-      for (const commentElement of commentElements) {
-        commentElement.addEventListener("click", (event) => {
-          const nameAuthor = commentElement.querySelector(".comment-header div:first-child").textContent;
-          const textAuthor = commentElement.querySelector(".comment-text").textContent;
-          commentsElement.value = `>${textAuthor.trim()}\n${nameAuthor}, `;
-          commentsElement.focus();
-        });
-      }
-    }
-
 
     buttonElement.addEventListener("click", () => {
       nameElement.classList.remove("errorColorInput");
@@ -192,7 +191,6 @@
 
       renderComments();
     })
-    answerElements();
 
   </script>
 </body>
