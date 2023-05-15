@@ -84,14 +84,12 @@
         likesButtonsElement.addEventListener('click', () => {
           const index = likesButtonsElement.dataset.index;
           let counter = comments[index]['like'];
-
-          if (comments[index]['likes'] === 'like-button -active-like') {
+          if (comments[index]['likes']) {
             comments[index].like -= 1;
-            comments[index]['likes'] = Boolean;
           } else {
             comments[index].like += 1;
-            comments[index]['likes'] = 'like-button -active-like';
           }
+          comments[index]['likes'] != comments[index]['likes'];
 
           renderComments();
         });
