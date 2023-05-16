@@ -66,14 +66,14 @@
         date: '12.02.22 12:18',
         comment: 'Это будет первый комментарий на этой странице',
         like: 3,
-        likes: 'like-button'
+        likes: false
       },
       {
         name: 'Варвара Н.',
         date: '13.02.22 19:22',
         comment: 'Мне нравится как оформлена эта страница! ❤',
         like: 75,
-        likes: 'like-button'
+        likes: false
       }
     ];
 
@@ -83,14 +83,13 @@
       for (const likesButtonsElement of likesButtonsElements) {
         likesButtonsElement.addEventListener('click', () => {
           const index = likesButtonsElement.dataset.index;
-          let counter = comments[index]['like'];
-          if (comments[index]['likes']) {
+          if (comments[index]['likes'] === true) {
             comments[index].like -= 1;
+            comments[index]['likes'] = false;
           } else {
             comments[index].like += 1;
+            comments[index]['likes'] = true;
           }
-          comments[index]['likes'] != comments[index]['likes'];
-
           renderComments();
         });
       };
@@ -184,12 +183,11 @@
           .replaceAll(">", "&gt;")
           .replaceAll('"', "&quot;"),
         like: 0,
-        likes: 'like-button'
+        likes: false
       });
 
       renderComments();
     })
-
   </script>
 </body>
 
