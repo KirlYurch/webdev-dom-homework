@@ -61,20 +61,20 @@
     })
 
     let comments = [
-      {
-        name: 'Глеб Фокин',
-        date: '12.02.22 12:18',
-        text: 'Это будет первый комментарий на этой странице',
-        likes: 3,
-        isLiked: false
-      },
-      {
-        name: 'Варвара Н.',
-        date: '13.02.22 19:22',
-        text: 'Мне нравится как оформлена эта страница! ❤',
-        likes: 75,
-        isLiked: false
-      }
+      // {
+      //   name: 'Глеб Фокин',
+      //   date: '12.02.22 12:18',
+      //   text: 'Это будет первый комментарий на этой странице',
+      //   likes: 3,
+      //   isLiked: false
+      // },
+      // {
+      //   name: 'Варвара Н.',
+      //   date: '13.02.22 19:22',
+      //   text: 'Мне нравится как оформлена эта страница! ❤',
+      //   likes: 75,
+      //   isLiked: false
+      // }
     ];
 
     const needTrueDate = (date) => {
@@ -88,15 +88,13 @@
     }
 
     const receivedComments = () => {
-      const fetchPromise = fetch(
-        'https://webdev-hw-api.vercel.app/api/v1/:Kirl_Yurch/comments',
-        {
-          method: "GET"
-        }
-      )
-      fetchPromise.then((response) => {
-        const jsonPromise = response.json();
-        jsonPromise.then((responseData) => {
+      return fetch('https://webdev-hw-api.vercel.app/api/v1/Kirl_Yurch/comments', {
+        method: "GET"
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseData) => {
           const appComments = responseData.comments.map((comment) => {
             return {
               name: comment.author.name,
@@ -109,32 +107,34 @@
           comments = appComments;
           renderComments();
         })
-      })
     }
 
+    receivedComments();
+   
     const updateComments = () => {
-        fetch("https://webdev-hw-api.vercel.app/api/v1/:Kirl_Yurch/comments", {
-          method: "POST",
-          body: JSON.stringify({
-            name: nameElement.value,
-            text: commentsElement.value,
-          }),
-        }).then((response) => {
-          response.json().then((responseData) => {
-            fetch(receivedComments()).then((response) => {
-              response.json().then((responseData) => {
-                comments = responseData.comments;
-                renderComments();
-              });
-            });
-          });
+      fetch("https://webdev-hw-api.vercel.app/api/v1/Kirl_Yurch/comments", {
+        method: "POST",
+        body: JSON.stringify({
+          name: nameElement.value,
+          text: commentsElement.value,
+        }),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then(() => {
+          return receivedComments();;
+        })
+        .then(() => {
+          buttonElement.disabled = false;
+          buttonElement.textContent = "Написать";
         });
-      }
 
-      updateComments();
+      renderComments();
 
       nameElement.value = '';
       commentsElement.value = '';
+    }
 
     const isLikedElements = () => {
       const isLikedButtonsElements = document.querySelectorAll('.like-button');
@@ -203,6 +203,13 @@
 
     renderComments();
 
+    // Добавление сценария показа уведомления при запуске приложения {
+    const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+    messageElement.textContent = 'Пожалуйста, подождите, комментарии загружаются...';
+    listElement.append(messageElement);
+    // }
+
     buttonElement.addEventListener("click", () => {
       nameElement.classList.remove("errorColorInput");
       nameElement.classList.remove("errorBoxShadowInput");
@@ -220,8 +227,10 @@
         return;
       }
 
-      updateComments ();
-      
+      buttonElement.disabled = true;
+      buttonElement.textContent = "Комментарий добавляется...";
+
+      updateComments();
       const oldListHtml = listElement.innerHTML;
       let currentDate = new Date();
       const date = currentDate.getDate().toString().padStart(2, "0");
@@ -247,8 +256,9 @@
       //   isLiked: false
       // });
 
+      receivedComments();
+
     })
-    receivedComments();
   </script>
 </body>
 
