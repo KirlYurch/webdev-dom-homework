@@ -112,13 +112,37 @@
       })
     }
 
+    const updateComments = () => {
+        fetch("https://webdev-hw-api.vercel.app/api/v1/:Kirl_Yurch/comments", {
+          method: "POST",
+          body: JSON.stringify({
+            name: nameElement.value,
+            text: commentsElement.value,
+          }),
+        }).then((response) => {
+          response.json().then((responseData) => {
+            fetch(receivedComments()).then((response) => {
+              response.json().then((responseData) => {
+                comments = responseData.comments;
+                renderComments();
+              });
+            });
+          });
+        });
+      }
+
+      updateComments();
+
+      nameElement.value = '';
+      commentsElement.value = '';
+
     const isLikedElements = () => {
       const isLikedButtonsElements = document.querySelectorAll('.like-button');
 
       for (const isLikedButtonsElement of isLikedButtonsElements) {
         isLikedButtonsElement.addEventListener('click', () => {
           const index = isLikedButtonsElement.dataset.index;
-          if (comments[index]['isLiked'] === true) {
+          if (comments[index].isLiked) {
             comments[index].likes -= 1;
             comments[index]['isLiked'] = false;
           } else {
@@ -196,29 +220,8 @@
         return;
       }
 
-    const updateComments = () => {
-      fetch("https://webdev-hw-api.vercel.app/api/v1/:Kirl_Yurch/comments", {
-        method: "POST", 
-        body: JSON.stringify({ 
-          name: nameElement.value, 
-          text: commentsElement.value, }), 
-        }).then((response) => { 
-          response.json().then((responseData) => { 
-            fetch("https://webdev-hw-api.vercel.app/api/v1/:Kirl_Yurch/comments").then((response) => { 
-              response.json().then((responseData) => { 
-                comments = responseData.comments; 
-                renderComments(); 
-              }); 
-            }); 
-          }); 
-        }); 
-      }
-
-    updateComments();
-
-    nameElement.value = '';
-    commentsElement.value = '';
-
+      updateComments ();
+      
       const oldListHtml = listElement.innerHTML;
       let currentDate = new Date();
       const date = currentDate.getDate().toString().padStart(2, "0");
@@ -244,7 +247,6 @@
       //   isLiked: false
       // });
 
-      renderComments();
     })
     receivedComments();
   </script>
