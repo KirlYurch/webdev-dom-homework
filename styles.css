@@ -64,7 +64,7 @@ body {
     font-size: 32px;
   }
 
-  .likes {
+  .isLiked {
     display: flex;
     align-items: center;
   }
@@ -74,7 +74,7 @@ body {
     cursor: pointer;
   }
 
-  .likes-counter {
+  .isLiked-counter {
     font-size: 26px;
     margin-right: 8px;
   }
