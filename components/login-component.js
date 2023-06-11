@@ -1,4 +1,4 @@
-import { loginApi } from "./modules/API.js";
+import { loginApi } from "/modules/API.js";
 export let userName = null;
 
 export function renderloginComponent({ commentsHtml, appEl, renderComments, comments, setToken }) {
