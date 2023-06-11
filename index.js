@@ -1,4 +1,4 @@
-import { getComments, postComments } from "/modules/API.js";
+import { getComments, postComments } from "./modules/API.js";
 import { renderloginComponent } from "./components/login-component.js";
 import { userName } from "./components/login-component.js";
 
