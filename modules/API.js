@@ -38,7 +38,7 @@ export function postComments({ name, text, forceError, token }) {
         })
 }
 
-export function loginApi({ login, password }) {
+export function loginApi({ login, password}) {
 
     return fetch("https://wedev-api.sky.pro/api/user/login", {
         method: "POST",
@@ -48,7 +48,6 @@ export function loginApi({ login, password }) {
         }),
     })
         .then((response) => {
-
             if (response.status === 400) {
                 throw new Error('Неверный логин или пароль');
             }

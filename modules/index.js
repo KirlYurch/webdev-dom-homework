@@ -1,7 +1,7 @@
 import { getComments } from "/modules/API.js";
 import { postComments } from "/modules/API.js";
 import { renderloginComponent } from "../components/login-component.js";
-
+import { userName } from "../components/login-component.js";
 let comments = [];
 let token = null;
 
@@ -66,7 +66,6 @@ const updateComments = () => {
             buttonElement.textContent = "Написать";
             nameElement.value = '';
             commentsElement.value = '';
-
             return;
         })
         .catch((error) => {
@@ -125,7 +124,8 @@ function renderComments(comments) {
     
   </ul>
   <div class="add-form">
-    <input type="text" class="add-form-name" id="name" placeholder="Введите ваше имя" value = "Админ" disabled/>
+ 
+    <input type="text" class="add-form-name" id="name" placeholder="Введите ваше имя" value = "${userName}" disabled/>
     <textarea type="textarea" class="add-form-text" id="comments" placeholder="Введите ваш коментарий"
       rows="4"></textarea>
     <div class="add-form-row">

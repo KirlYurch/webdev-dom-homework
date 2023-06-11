@@ -1,4 +1,5 @@
 import { loginApi } from "/modules/API.js";
+export let userName = null;
 
 export function renderloginComponent({ commentsHtml, appEl, renderComments, comments, setToken }) {
     
@@ -11,16 +12,15 @@ ${commentsHtml}
 <p class="dobavka">Чтобы добавить коментарий,<button id = "buttonAuthorization" class = "buttonAuthorizationCSS">авторизуйтесь</button></p>`
 
     appEl.innerHTML = appHtml;
-    
+
+    const scrollToTop = function() {
+        window.scroll({
+            top: 0
+        });
+    };
 
     document.getElementById('buttonAuthorization').addEventListener('click', () => {
-        const scrollToTop = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > 0) {
-                window.scrollTo(0, scrollTop - scrollTop / 8);
-                requestAnimationFrame(scrollToTop);
-            }
-        };
+        
         scrollToTop();
 
         const appHtml =
@@ -48,7 +48,6 @@ ${commentsHtml}
           </div>`
           appEl.innerHTML = appHtml;
         })
-
         document.getElementById('login-button').addEventListener('click', () => {
             const login = document.getElementById('login-input').value;
             const password = document.getElementById('password-input').value;
@@ -71,7 +70,9 @@ ${commentsHtml}
             loginApi({
                 login: login,
                 password: password,
+                name: '',
             }).then((user) => {
+                userName = user.user.name;
                 setToken(`Bearer ${user.user.token}`);
                 renderComments(comments);
             }).catch(error => {
