@@ -1,9 +1,9 @@
-import { loginApi } from "/modules/API.js"
+import { loginApi } from '../modules/API.js';
 
 export let userName = null;
 
 export function renderloginComponent({ commentsHtml, appEl, renderComments, comments, setToken }) {
-    
+
     const appHtml =
         `
 <ul class="comments" id="list">
@@ -14,14 +14,14 @@ ${commentsHtml}
 
     appEl.innerHTML = appHtml;
 
-    const scrollToTop = function() {
+    const scrollToTop = function () {
         window.scroll({
             top: 0
         });
     };
 
     document.getElementById('buttonAuthorization').addEventListener('click', () => {
-        
+
         scrollToTop();
 
         const appHtml =
@@ -34,9 +34,9 @@ ${commentsHtml}
 </div>`
 
         renderComments(comments);
-        
+
         appEl.innerHTML = appHtml;
-        
+
         document.getElementById('reg-button').addEventListener('click', () => {
             const appHtml = `
             <div class="registr-content">
@@ -47,7 +47,7 @@ ${commentsHtml}
             <button id="reg-button" class="login-button">Зарегистрироваться</button>
             <button id="login-button" class="login-button registr">Войти</button>
           </div>`
-          appEl.innerHTML = appHtml;
+            appEl.innerHTML = appHtml;
         })
         document.getElementById('login-button').addEventListener('click', () => {
             const login = document.getElementById('login-input').value;
@@ -87,6 +87,6 @@ ${commentsHtml}
 
         });
     })
-    
+
 }
 
